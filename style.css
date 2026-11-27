@@ -1,3 +1,5 @@
+/* GENERAL SETTINGS */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,93 +7,363 @@
     font-family: Arial, sans-serif;
 }
 
-body {
-    background: #f4f8f1;
+html {
+    scroll-behavior: smooth;
 }
+
+body {
+    background: #f5f8f1;
+    color: #333;
+}
+
+/* HEADER */
 
 header {
-    background: #287a36;
+    background: #246b35;
     color: white;
     text-align: center;
-    padding: 25px;
+    padding: 25px 15px;
 }
 
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 16px;
+}
+
+/* NAVIGATION */
+
 nav {
-    background: #174d25;
+    background: #174d27;
+    padding: 16px;
     text-align: center;
-    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin: 12px;
+    margin: 8px 12px;
+    font-weight: bold;
+    display: inline-block;
 }
+
+nav a:hover {
+    color: #ffdf70;
+}
+
+/* HOME SECTION */
 
 .hero {
-    background: linear-gradient(
-        rgba(0,0,0,0.5),
-        rgba(0,0,0,0.5)
-    ), url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200");
-    background-size: cover;
-    background-position: center;
-    color: white;
+    min-height: 400px;
+    background:
+        linear-gradient(#0007, #0007),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400")
+        center/cover no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 100px 20px;
-}
-
-.hero h2 {
-    font-size: 35px;
-}
-
-.btn {
-    display: inline-block;
-    background: orange;
     color: white;
-    padding: 12px 25px;
-    margin-top: 20px;
-    text-decoration: none;
+    padding: 40px 20px;
 }
+
+.hero-content h2 {
+    font-size: 38px;
+    margin-bottom: 18px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.hero-btn {
+    display: inline-block;
+    background: #f5a623;
+    color: #222;
+    text-decoration: none;
+    padding: 13px 25px;
+    margin-top: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hero-btn:hover {
+    background: #ffcf67;
+}
+
+/* SECTION SETTINGS */
 
 section {
-    padding: 40px 20px;
-    text-align: center;
+    padding: 50px 6%;
 }
 
-section h2 {
-    color: #287a36;
+.section-title {
+    text-align: center;
+    color: #246b35;
+    font-size: 30px;
     margin-bottom: 20px;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.section-description {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/* SEARCH BAR */
+
+.search-box {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    width: 80%;
+    max-width: 500px;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #246b35;
+}
+
+/* CATEGORY BUTTONS */
+
+.categories {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.categories button {
+    background: #246b35;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.categories button:hover {
+    background: #f0a52b;
+    color: #222;
+}
+
+/* PRODUCT GRID */
+
+.product-container {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
     gap: 25px;
 }
 
-.card {
+/* PRODUCT CARD */
+
+.product {
     background: white;
-    width: 250px;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 12px #0002;
+    padding-bottom: 18px;
+    transition: 0.3s;
 }
 
-.card img {
+.product:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 8px 18px #0003;
+}
+
+/* PRODUCT IMAGE */
+
+.product img {
     width: 100%;
-    height: 170px;
+    height: 180px;
     object-fit: cover;
 }
 
-.card h3 {
-    margin: 12px;
-    color: #287a36;
+/* PRODUCT NAME */
+
+.product h3 {
+    color: #246b35;
+    font-size: 20px;
+    margin: 15px 8px 8px;
 }
 
-footer {
-    background: #174d25;
-    color: white;
-    padding: 20px;
+/* PRODUCT DESCRIPTION */
+
+.product p {
+    margin: 8px;
+    font-size: 14px;
+}
+
+/* PRODUCT PRICE */
+
+.product .price {
+    color: #e27b18;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/* NO RESULTS */
+
+#noResults {
+    display: none;
     text-align: center;
+    color: red;
+    margin-top: 25px;
+}
+
+/* ABOUT SECTION */
+
+.about {
+    background: #e3f1df;
+    text-align: center;
+    line-height: 1.9;
+}
+
+.about p {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* FARMER CARDS */
+
+.info-container {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.info-card {
+    background: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px #0002;
+    transition: 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+}
+
+.info-card h3 {
+    color: #246b35;
+    margin-bottom: 15px;
+}
+
+/* MARKET PRICE TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 14px;
+    text-align: center;
+}
+
+th {
+    background: #246b35;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #eaf4e6;
+}
+
+.note {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* CONTACT SECTION */
+
+.contact {
+    background: #e3f1df;
+    text-align: center;
+    line-height: 2.2;
+}
+
+/* FOOTER */
+
+footer {
+    background: #174d27;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    line-height: 1.8;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media(max-width: 768px) {
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    .hero-content h2 {
+        font-size: 28px;
+    }
+
+    nav a {
+        margin: 7px;
+        font-size: 14px;
+    }
+
+    section {
+        padding: 35px 15px;
+    }
+
+    .product-container {
+        grid-template-columns:
+            repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .product img {
+        height: 140px;
+    }
+}
+
+@media(max-width: 400px) {
+
+    .product-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .product img {
+        height: 120px;
+    }
+
+    .categories button {
+        padding: 9px 11px;
+        font-size: 12px;
+    }
 }
