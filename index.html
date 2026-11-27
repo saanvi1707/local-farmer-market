@@ -6,117 +6,433 @@
     <title>Local Farmer Market</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- HEADER -->
 <header>
-    <h1>🌾 Local Farmer Market</h1>
+    <h1>🌱 Local Farmer Market</h1>
     <p>Fresh Products Directly From Farmers</p>
 </header>
 
+<!-- NAVIGATION -->
 <nav>
     <a href="#home">Home</a>
-    <a href="#about">About</a>
     <a href="#products">Products</a>
-    <a href="#prices">Market Prices</a>
+    <a href="#about">About</a>
     <a href="#farmers">Farmers</a>
+    <a href="#prices">Market Prices</a>
     <a href="#contact">Contact</a>
 </nav>
 
+<!-- HOME -->
 <section class="hero" id="home">
-    <h2>Welcome to Local Farmer Market</h2>
-    <p>Connecting Farmers and Customers</p>
-    <a href="#products" class="btn">Explore Products</a>
-</section>
-
-<section id="about">
-    <h2>About Our Portal</h2>
-    <p>
-        Our Local Farmer Market Information System
-        provides information about local farmers,
-        agricultural products and market prices.
-        It helps customers find fresh products
-        directly from farmers.
-    </p>
-</section>
-
-<section id="products">
-    <h2>Available Products</h2>
-
-    <div class="container">
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500">
-            <h3>Tomato</h3>
-            <p>₹30 per kg</p>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500">
-            <h3>Potato</h3>
-            <p>₹25 per kg</p>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=500">
-            <h3>Apple</h3>
-            <p>₹120 per kg</p>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1518843875459-f738682238a6?w=500">
-            <h3>Carrot</h3>
-            <p>₹40 per kg</p>
-        </div>
+    <div class="hero-content">
+        <h2>Welcome to Local Farmer Market</h2>
+        <p>Fresh Fruits, Vegetables, Grains and More!</p>
+        <p>Support Local Farmers and Buy Fresh Products.</p>
+        <a href="#products" class="hero-btn">Explore Products</a>
     </div>
 </section>
 
-<section id="prices">
-    <h2>Daily Market Prices</h2>
+<!-- PRODUCTS -->
+<section id="products">
+    <h2 class="section-title">Our Available Products</h2>
+    <p class="section-description">
+        Find fresh products available in your local market.
+    </p>
 
-    <table>
-        <tr>
-            <th>Product</th>
-            <th>Price per kg</th>
-        </tr>
-        <tr>
-            <td>Tomato</td>
-            <td>₹30</td>
-        </tr>
-        <tr>
-            <td>Potato</td>
-            <td>₹25</td>
-        </tr>
-        <tr>
-            <td>Onion</td>
-            <td>₹40</td>
-        </tr>
-        <tr>
-            <td>Carrot</td>
-            <td>₹40</td>
-        </tr>
-    </table>
-    <p class="note">Prices shown are sample values.</p>
+    <!-- SEARCH -->
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="Search for products..."
+        onkeyup="searchProducts()">
+    </div>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="categories">
+        <button onclick="filterProducts('all')">All Products</button>
+        <button onclick="filterProducts('vegetable')">Vegetables</button>
+        <button onclick="filterProducts('fruit')">Fruits</button>
+        <button onclick="filterProducts('grain')">Grains</button>
+        <button onclick="filterProducts('pulse')">Pulses</button>
+        <button onclick="filterProducts('spice')">Spices</button>
+        <button onclick="filterProducts('dairy')">Dairy</button>
+        <button onclick="filterProducts('other')">Other Products</button>
+    </div>
+
+    <div class="product-container" id="productList">
+
+        <!-- VEGETABLES -->
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400" alt="Tomato">
+            <h3>Tomato</h3>
+            <p>Fresh farm tomatoes</p>
+            <p class="price">₹30 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400" alt="Potato">
+            <h3>Potato</h3>
+            <p>Fresh potatoes</p>
+            <p class="price">₹25 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400" alt="Onion">
+            <h3>Onion</h3>
+            <p>Fresh red onions</p>
+            <p class="price">₹35 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400" alt="Carrot">
+            <h3>Carrot</h3>
+            <p>Fresh carrots</p>
+            <p class="price">₹40 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1568584711271-6c929fb49d9e?w=400" alt="Cabbage">
+            <h3>Cabbage</h3>
+            <p>Green cabbage</p>
+            <p class="price">₹30 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?w=400" alt="Cauliflower">
+            <h3>Cauliflower</h3>
+            <p>Fresh cauliflower</p>
+            <p class="price">₹35 / piece</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400" alt="Capsicum">
+            <h3>Capsicum</h3>
+            <p>Green capsicum</p>
+            <p class="price">₹50 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400" alt="Brinjal">
+            <h3>Brinjal</h3>
+            <p>Fresh brinjal</p>
+            <p class="price">₹35 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400" alt="Radish">
+            <h3>Radish</h3>
+            <p>Fresh radish</p>
+            <p class="price">₹30 / kg</p>
+        </div>
+
+        <div class="product" data-category="vegetable">
+            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" alt="Spinach">
+            <h3>Spinach</h3>
+            <p>Fresh leafy greens</p>
+            <p class="price">₹20 / bunch</p>
+        </div>
+
+        <!-- FRUITS -->
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400" alt="Apple">
+            <h3>Apple</h3>
+            <p>Fresh apples</p>
+            <p class="price">₹120 / kg</p>
+        </div>
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400" alt="Banana">
+            <h3>Banana</h3>
+            <p>Fresh bananas</p>
+            <p class="price">₹50 / dozen</p>
+        </div>
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=400" alt="Mango">
+            <h3>Mango</h3>
+            <p>Sweet mangoes</p>
+            <p class="price">₹80 / kg</p>
+        </div>
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1547514701-42782101795e?w=400" alt="Orange">
+            <h3>Orange</h3>
+            <p>Juicy oranges</p>
+            <p class="price">₹60 / kg</p>
+        </div>
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400" alt="Grapes">
+            <h3>Grapes</h3>
+            <p>Fresh grapes</p>
+            <p class="price">₹90 / kg</p>
+        </div>
+
+        <div class="product" data-category="fruit">
+            <img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=400" alt="Pomegranate">
+            <h3>Pomegranate</h3>
+            <p>Fresh pomegranates</p>
+            <p class="price">₹100 / kg</p>
+        </div>
+
+        <!-- GRAINS -->
+
+        <div class="product" data-category="grain">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400" alt="Rice">
+            <h3>Rice</h3>
+            <p>Local rice</p>
+            <p class="price">₹55 / kg</p>
+        </div>
+
+        <div class="product" data-category="grain">
+            <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400" alt="Wheat">
+            <h3>Wheat</h3>
+            <p>Quality wheat</p>
+            <p class="price">₹35 / kg</p>
+        </div>
+
+        <div class="product" data-category="grain">
+            <img src="https://images.unsplash.com/photo-1601593768794-7c8a0c5f2a1e?w=400" alt="Maize">
+            <h3>Maize</h3>
+            <p>Fresh maize</p>
+            <p class="price">₹30 / kg</p>
+        </div>
+
+        <div class="product" data-category="grain">
+            <img src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400" alt="Ragi">
+            <h3>Ragi</h3>
+            <p>Healthy finger millet</p>
+            <p class="price">₹45 / kg</p>
+        </div>
+
+        <!-- PULSES -->
+
+        <div class="product" data-category="pulse">
+            <img src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400" alt="Toor Dal">
+            <h3>Toor Dal</h3>
+            <p>Quality pigeon peas</p>
+            <p class="price">₹120 / kg</p>
+        </div>
+
+        <div class="product" data-category="pulse">
+            <img src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400" alt="Green Gram">
+            <h3>Green Gram</h3>
+            <p>Fresh moong dal</p>
+            <p class="price">₹100 / kg</p>
+        </div>
+
+        <div class="product" data-category="pulse">
+            <img src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400" alt="Chickpeas">
+            <h3>Chickpeas</h3>
+            <p>Fresh chana</p>
+            <p class="price">₹90 / kg</p>
+        </div>
+
+        <!-- SPICES -->
+
+        <div class="product" data-category="spice">
+            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="Turmeric">
+            <h3>Turmeric</h3>
+            <p>Natural turmeric</p>
+            <p class="price">₹80 / kg</p>
+        </div>
+
+        <div class="product" data-category="spice">
+            <img src="https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=400" alt="Chilli">
+            <h3>Dry Chilli</h3>
+            <p>Fresh farm chillies</p>
+            <p class="price">₹100 / kg</p>
+        </div>
+
+        <!-- DAIRY -->
+
+        <div class="product" data-category="dairy">
+            <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400" alt="Milk">
+            <h3>Milk</h3>
+            <p>Fresh cow milk</p>
+            <p class="price">₹40 / litre</p>
+        </div>
+
+        <div class="product" data-category="dairy">
+            <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400" alt="Butter">
+            <h3>Butter</h3>
+            <p>Fresh dairy butter</p>
+            <p class="price">₹60 / pack</p>
+        </div>
+
+        <!-- OTHER PRODUCTS -->
+
+        <div class="product" data-category="other">
+            <img src="https://images.unsplash.com/photo-1471943311424-646960669fbc?w=400" alt="Coconut">
+            <h3>Coconut</h3>
+            <p>Fresh coconut</p>
+            <p class="price">₹30 / piece</p>
+        </div>
+
+        <div class="product" data-category="other">
+            <img src="https://images.unsplash.com/photo-1493962853295-0fd70327578a?w=400" alt="Honey">
+            <h3>Honey</h3>
+            <p>Natural farm honey</p>
+            <p class="price">₹200 / bottle</p>
+        </div>
+
+        <div class="product" data-category="other">
+            <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=400" alt="Groundnut">
+            <h3>Groundnut</h3>
+            <p>Fresh groundnuts</p>
+            <p class="price">₹90 / kg</p>
+        </div>
+
+    </div>
+
+    <p id="noResults">No products found. Try another search.</p>
 </section>
 
-<section id="farmers">
-    <h2>For Local Farmers</h2>
+<!-- ABOUT -->
+<section id="about" class="about">
+    <h2 class="section-title">About Our Market</h2>
     <p>
-        Our portal supports local farmers by
-        providing information about their
-        agricultural products and market prices.
+        Local Farmer Market Information System is a platform
+        that connects local farmers directly with customers.
+        It provides information about agricultural products,
+        market prices and locally available items.
+        Our aim is to support farmers, reduce middlemen
+        and provide fresh products to customers.
     </p>
 </section>
 
-<section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: farmermarket@gmail.com</p>
-    <p>Location: Local Agricultural Market</p>
+<!-- FARMERS -->
+<section id="farmers">
+    <h2 class="section-title">Our Farmers</h2>
+
+    <div class="info-container">
+
+        <div class="info-card">
+            <h3>👨‍🌾 Vegetable Farmers</h3>
+            <p>Providing fresh vegetables from local farms.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>👩‍🌾 Fruit Farmers</h3>
+            <p>Growing seasonal and fresh fruits.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>🌾 Grain Farmers</h3>
+            <p>Supplying rice, wheat, ragi and other grains.</p>
+        </div>
+
+    </div>
 </section>
 
+<!-- MARKET PRICES -->
+<section id="prices">
+    <h2 class="section-title">Market Price Information</h2>
+
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+            <tr><td>Tomato</td><td>Vegetable</td><td>₹30/kg</td></tr>
+            <tr><td>Potato</td><td>Vegetable</td><td>₹25/kg</td></tr>
+            <tr><td>Onion</td><td>Vegetable</td><td>₹35/kg</td></tr>
+            <tr><td>Apple</td><td>Fruit</td><td>₹120/kg</td></tr>
+            <tr><td>Banana</td><td>Fruit</td><td>₹50/dozen</td></tr>
+            <tr><td>Rice</td><td>Grain</td><td>₹55/kg</td></tr>
+            <tr><td>Ragi</td><td>Grain</td><td>₹45/kg</td></tr>
+            <tr><td>Toor Dal</td><td>Pulse</td><td>₹120/kg</td></tr>
+            <tr><td>Milk</td><td>Dairy</td><td>₹40/litre</td></tr>
+        </table>
+    </div>
+
+    <p class="note">
+        Note: Prices shown are sample prices. Actual local market
+        prices may vary according to location, season and availability.
+    </p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <p>📍 Location: Karnataka, India</p>
+    <p>📞 Phone: Add your contact number</p>
+    <p>✉️ Email: Add your email address</p>
+</section>
+
+<!-- FOOTER -->
 <footer>
+    <h3>🌱 Local Farmer Market</h3>
+    <p>Supporting Farmers | Growing Together</p>
     <p>© 2026 Local Farmer Market Information System</p>
-    <p>Supporting Farmers | Supporting Agriculture</p>
 </footer>
+
+<!-- JAVASCRIPT -->
+<script>
+
+function filterProducts(category) {
+
+    let products = document.querySelectorAll(".product");
+
+    document.getElementById("searchInput").value = "";
+
+    let count = 0;
+
+    products.forEach(function(product) {
+
+        if (category === "all" ||
+            product.dataset.category === category) {
+
+            product.style.display = "block";
+            count++;
+
+        } else {
+
+            product.style.display = "none";
+
+        }
+    });
+
+    document.getElementById("noResults").style.display =
+        count === 0 ? "block" : "none";
+}
+
+function searchProducts() {
+
+    let search = document.getElementById("searchInput")
+        .value.toLowerCase();
+
+    let products = document.querySelectorAll(".product");
+    let count = 0;
+
+    products.forEach(function(product) {
+
+        let name = product.querySelector("h3")
+            .innerText.toLowerCase();
+
+        if (name.includes(search)) {
+
+            product.style.display = "block";
+            count++;
+
+        } else {
+
+            product.style.display = "none";
+
+        }
+    });
+
+    document.getElementById("noResults").style.display =
+        count === 0 ? "block" : "none";
+}
+
+</script>
 
 </body>
 </html>
