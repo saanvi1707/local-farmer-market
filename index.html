@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Farmer Market</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .add-cart-btn, .cart-action, .checkout-btn {
+            background: #246b35;
+            color: white;
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .add-cart-btn:hover, .cart-action:hover,
+        .checkout-btn:hover {
+            background: #e6a23c;
+            color: #17210f;
+        }
+
+        #shopping-cart {
+            padding: 35px 6%;
+            background: #eef6eb;
+        }
+
+        #shopping-cart .cart-panel {
+            max-width: 950px;
+            margin: 20px auto;
+            padding: 22px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #00000012;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e5e5;
+            flex-wrap: wrap;
+        }
+
+        .cart-row p {
+            margin: 5px 0;
+        }
+
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-quantity button, .remove-btn {
+            border: 0;
+            border-radius: 5px;
+            padding: 7px 11px;
+            cursor: pointer;
+        }
+
+        .cart-quantity button {
+            background: #e5efdf;
+        }
+
+        .remove-btn {
+            background: #f8dddd;
+            color: #8b1717;
+        }
+
+        #cartTotal {
+            text-align: right;
+            margin: 20px 0;
+            color: #246b35;
+        }
+
+        .checkout-form {
+            display: grid;
+            gap: 12px;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .checkout-form input,
+        .checkout-form textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font: inherit;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        @media(max-width: 600px) {
+            .cart-row {
+                align-items: flex-start;
+            }
+
+            #cartTotal {
+                text-align: left;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -19,6 +127,7 @@
 <nav>
     <a href="#home">Home</a>
     <a href="#products">Products</a>
+    <a href="#shopping-cart">🛒 Cart (<span id="cartCount">0</span>)</a>
     <a href="#about">About</a>
     <a href="#farmers">Farmers</a>
     <a href="#prices">Market Prices</a>
@@ -38,6 +147,7 @@
 <!-- PRODUCTS -->
 <section id="products">
     <h2 class="section-title">Our Available Products</h2>
+
     <p class="section-description">
         Find fresh products available in your local market.
     </p>
@@ -289,7 +399,9 @@
 
     </div>
 
-    <p id="noResults">No products found. Try another search.</p>
+    <p id="noResults">
+        No products found. Try another search.
+    </p>
 </section>
 
 <!-- ABOUT -->
@@ -366,6 +478,70 @@
     <p>✉️ Email: Add your email address</p>
 </section>
 
+<!-- SHOPPING CART -->
+<section id="shopping-cart">
+    <h2 class="section-title">🛒 Your Shopping Cart</h2>
+
+    <div class="cart-panel">
+
+        <div id="cartItems">
+            <p class="empty-cart">
+                Your cart is empty. Add some products to get started!
+            </p>
+        </div>
+
+        <h3 id="cartTotal">Total: ₹0.00</h3>
+
+        <button type="button" class="cart-action" id="clearCartBtn">
+            Clear Cart
+        </button>
+
+        <h3>Customer and Delivery Details</h3>
+
+        <form id="checkoutForm" class="checkout-form">
+
+            <label>
+                Full name
+                <input type="text" id="customerName"
+                required placeholder="Enter your name">
+            </label>
+
+            <label>
+                Phone number
+                <input type="tel" id="customerPhone"
+                required pattern="[0-9]{10}"
+                maxlength="10"
+                placeholder="10-digit mobile number">
+            </label>
+
+            <label>
+                Delivery address
+                <textarea id="customerAddress"
+                required rows="3"
+                placeholder="Enter your full delivery address"></textarea>
+            </label>
+
+            <button type="submit" class="checkout-btn"
+            id="placeOrderBtn">
+                Place Order
+            </button>
+
+        </form>
+
+        <p id="orderMessage" role="status" aria-live="polite"></p>
+
+        <p>
+            <small>
+                Demo notice: this GitHub Pages version stores the
+                cart in this browser. To receive and save real
+                customer orders, connect a backend/database or
+                an order service.
+            </small>
+        </p>
+
+    </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
     <h3>🌱 Local Farmer Market</h3>
@@ -374,71 +550,523 @@
 </footer>
 
 <!-- JAVASCRIPT -->
-
-<!-- JAVASCRIPT -->
 <script>
 
-function filterProducts(category) {
+/* LOCAL FARMER MARKET: SEARCH, FILTER, CART AND CHECKOUT */
 
-    let products = document.querySelectorAll(".product");
-    document.getElementById("searchInput").value = "";
+const CART_STORAGE_KEY = "localFarmerMarketCart";
+let cart = [];
 
-    let count = 0;
-
-    products.forEach(function(product) {
-
-        if (category === "all" ||
-            product.dataset.category === category) {
-
-            product.style.display = "block";
-            count++;
-
-        } else {
-
-            product.style.display = "none";
-
-        }
-    });
-
-    document.getElementById("noResults").style.display =
-        count === 0 ? "block" : "none";
+try {
+    cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+} catch (error) {
+    cart = [];
 }
 
+// SAVE CART
+function saveCart() {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+}
 
+// GET PRODUCT DETAILS
+function getProductDetails(product, index) {
+
+    const nameElement = product.querySelector("h3");
+    const priceElement = product.querySelector(".price");
+
+    const name = nameElement
+        ? nameElement.textContent.trim()
+        : "Product " + (index + 1);
+
+    const priceText = priceElement
+        ? priceElement.textContent
+        : "";
+
+    const match = priceText.replace(/,/g, "")
+        .match(/[0-9]+(?:\.[0-9]+)?/);
+
+    const price = match ? Number(match[0]) : 0;
+
+    return {
+        id: product.dataset.productId || String(index),
+        name: name,
+        price: price,
+        priceLabel: priceText.trim()
+    };
+}
+
+// ADD CART BUTTONS
+function setupProductButtons() {
+
+    const products = document.querySelectorAll(".product");
+
+    products.forEach(function(product, index) {
+
+        const details = getProductDetails(product, index);
+
+        product.dataset.productId = details.id;
+
+        if (product.querySelector(".add-cart-btn")) return;
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "add-cart-btn";
+        button.textContent = "Add to Cart";
+
+        button.addEventListener("click", function() {
+            addToCart(details);
+        });
+
+        product.appendChild(button);
+
+    });
+}
+
+// ADD PRODUCT TO CART
+function addToCart(product) {
+
+    if (!product.price || product.price < 0) {
+        alert("The price for this product is not available.");
+        return;
+    }
+
+    const existingItem = cart.find(function(item) {
+        return item.id === product.id;
+    });
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            priceLabel: product.priceLabel,
+            quantity: 1
+        });
+
+    }
+
+    saveCart();
+    displayCart();
+}
+
+// CHANGE QUANTITY
+function changeQuantity(productId, amount) {
+
+    const item = cart.find(function(cartItem) {
+        return cartItem.id === productId;
+    });
+
+    if (!item) return;
+
+    item.quantity += amount;
+
+    if (item.quantity <= 0) {
+
+        cart = cart.filter(function(cartItem) {
+            return cartItem.id !== productId;
+        });
+
+    }
+
+    saveCart();
+    displayCart();
+}
+
+// REMOVE PRODUCT
+function removeFromCart(productId) {
+
+    cart = cart.filter(function(item) {
+        return item.id !== productId;
+    });
+
+    saveCart();
+    displayCart();
+}
+
+// DISPLAY CART
+function displayCart() {
+
+    const cartItemsElement =
+        document.getElementById("cartItems");
+
+    const cartTotalElement =
+        document.getElementById("cartTotal");
+
+    const cartCountElement =
+        document.getElementById("cartCount");
+
+    if (!cartItemsElement || !cartTotalElement) return;
+
+    cartItemsElement.innerHTML = "";
+
+    let total = 0;
+    let totalQuantity = 0;
+
+    if (cart.length === 0) {
+
+        const emptyMessage = document.createElement("p");
+
+        emptyMessage.className = "empty-cart";
+
+        emptyMessage.textContent =
+            "Your cart is empty. Add some products to get started!";
+
+        cartItemsElement.appendChild(emptyMessage);
+
+    }
+
+    cart.forEach(function(item) {
+
+        const subtotal = item.price * item.quantity;
+
+        total += subtotal;
+        totalQuantity += item.quantity;
+
+        const row = document.createElement("div");
+
+        row.className = "cart-row";
+
+        const info = document.createElement("div");
+
+        const title = document.createElement("strong");
+
+        title.textContent = item.name;
+
+        const price = document.createElement("p");
+
+        price.textContent =
+            "₹" + item.price.toFixed(2) + " each";
+
+        const subtotalText = document.createElement("p");
+
+        subtotalText.textContent =
+            "Subtotal: ₹" + subtotal.toFixed(2);
+
+        info.append(title, price, subtotalText);
+
+        const controls = document.createElement("div");
+
+        controls.className = "cart-quantity";
+
+        // MINUS BUTTON
+        const minusButton = document.createElement("button");
+
+        minusButton.type = "button";
+        minusButton.textContent = "−";
+
+        minusButton.setAttribute(
+            "aria-label",
+            "Decrease " + item.name
+        );
+
+        minusButton.addEventListener("click", function() {
+            changeQuantity(item.id, -1);
+        });
+
+        // QUANTITY
+        const quantity = document.createElement("span");
+
+        quantity.textContent = item.quantity;
+
+        // PLUS BUTTON
+        const plusButton = document.createElement("button");
+
+        plusButton.type = "button";
+        plusButton.textContent = "+";
+
+        plusButton.setAttribute(
+            "aria-label",
+            "Increase " + item.name
+        );
+
+        plusButton.addEventListener("click", function() {
+            changeQuantity(item.id, 1);
+        });
+
+        // REMOVE BUTTON
+        const removeButton = document.createElement("button");
+
+        removeButton.type = "button";
+        removeButton.className = "remove-btn";
+        removeButton.textContent = "Remove";
+
+        removeButton.addEventListener("click", function() {
+            removeFromCart(item.id);
+        });
+
+        controls.append(
+            minusButton,
+            quantity,
+            plusButton,
+            removeButton
+        );
+
+        row.append(info, controls);
+
+        cartItemsElement.appendChild(row);
+
+    });
+
+    cartTotalElement.textContent =
+        "Total: ₹" + total.toFixed(2);
+
+    if (cartCountElement) {
+        cartCountElement.textContent = totalQuantity;
+    }
+
+    const placeOrderButton =
+        document.getElementById("placeOrderBtn");
+
+    if (placeOrderButton) {
+        placeOrderButton.disabled = cart.length === 0;
+    }
+}
+
+// CLEAR CART
+function clearCart() {
+
+    if (cart.length === 0) return;
+
+    if (confirm("Are you sure you want to clear your cart?")) {
+
+        cart = [];
+
+        saveCart();
+        displayCart();
+
+    }
+}
+
+// SEARCH PRODUCTS
 function searchProducts() {
 
-    let search = document.getElementById("searchInput")
-        .value.toLowerCase().trim();
+    const searchInput =
+        document.getElementById("searchInput");
 
-    let products = document.querySelectorAll(".product");
-    let count = 0;
+    const searchTerm =
+        searchInput.value.toLowerCase().trim();
+
+    const products =
+        document.querySelectorAll(".product");
+
+    let visibleCount = 0;
 
     products.forEach(function(product) {
 
-        let name = product.querySelector("h3")
-            .textContent.toLowerCase().trim();
+        const text = product.textContent.toLowerCase();
 
-        if (name.includes(search)) {
+        const matches = text.includes(searchTerm);
 
-            product.style.display = "block";
-            count++;
+        product.style.display = matches ? "" : "none";
 
-        } else {
+        if (matches) visibleCount++;
 
-            product.style.display = "none";
-
-        }
     });
 
-    document.getElementById("noResults").style.display =
-        count === 0 ? "block" : "none";
+    const noResults =
+        document.getElementById("noResults");
+
+    if (noResults) {
+
+        noResults.style.display =
+            visibleCount === 0 ? "block" : "none";
+
+    }
 }
 
+// FILTER PRODUCTS
+function filterProducts(category) {
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    const products =
+        document.querySelectorAll(".product");
+
+    let visibleCount = 0;
+
+    products.forEach(function(product) {
+
+        const matches =
+            category === "all" ||
+            product.dataset.category === category;
+
+        product.style.display = matches ? "" : "none";
+
+        if (matches) visibleCount++;
+
+    });
+
+    const noResults =
+        document.getElementById("noResults");
+
+    if (noResults) {
+
+        noResults.style.display =
+            visibleCount === 0 ? "block" : "none";
+
+    }
+}
+
+// PLACE ORDER
+function handleCheckout(event) {
+
+    event.preventDefault();
+
+    if (cart.length === 0) {
+
+        alert("Your cart is empty. Please add products first.");
+
+        return;
+
+    }
+
+    const customerName =
+        document.getElementById("customerName").value.trim();
+
+    const customerPhone =
+        document.getElementById("customerPhone").value.trim();
+
+    const customerAddress =
+        document.getElementById("customerAddress").value.trim();
+
+    if (
+        !customerName ||
+        !/^[0-9]{10}$/.test(customerPhone) ||
+        !customerAddress
+    ) {
+
+        alert(
+            "Please enter your name, a valid 10-digit phone number and delivery address."
+        );
+
+        return;
+
+    }
+
+    const orderTotal = cart.reduce(function(sum, item) {
+
+        return sum + item.price * item.quantity;
+
+    }, 0);
+
+    const order = {
+
+        orderNumber: "LFM" + Date.now(),
+
+        customerName: customerName,
+
+        phone: customerPhone,
+
+        address: customerAddress,
+
+        items: cart.map(function(item) {
+
+            return {
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity
+            };
+
+        }),
+
+        total: orderTotal,
+
+        createdAt: new Date().toISOString()
+
+    };
+
+    // DEMO: SAVE ORDER IN THIS BROWSER ONLY
+    const savedOrders = JSON.parse(
+        localStorage.getItem("localFarmerMarketOrders") || "[]"
+    );
+
+    savedOrders.push(order);
+
+    localStorage.setItem(
+        "localFarmerMarketOrders",
+        JSON.stringify(savedOrders)
+    );
+
+    document.getElementById("orderMessage").textContent =
+        "Order " + order.orderNumber +
+        " was created on this browser. Total: ₹" +
+        orderTotal.toFixed(2) +
+        ". This is a demo order; the farmer has not been notified.";
+
+    alert(
+        "Order placed successfully for this demo!\n" +
+        "Order ID: " + order.orderNumber +
+        "\nTotal: ₹" + orderTotal.toFixed(2) +
+        "\n\nNote: This order is saved only in this browser. It has not been sent to a farmer."
+    );
+
+    cart = [];
+
+    saveCart();
+
+    displayCart();
+
+    document.getElementById("checkoutForm").reset();
+
+}
+
+// INITIALIZE WEBSITE
+document.addEventListener("DOMContentLoaded", function() {
+
+    setupProductButtons();
+
+    displayCart();
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            searchProducts
+        );
+
+    }
+
+    const clearButton =
+        document.getElementById("clearCartBtn");
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+            "click",
+            clearCart
+        );
+
+    }
+
+    const checkoutForm =
+        document.getElementById("checkoutForm");
+
+    if (checkoutForm) {
+
+        checkoutForm.addEventListener(
+            "submit",
+            handleCheckout
+        );
+
+    }
+
+});
+
 </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
